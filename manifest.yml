@@ -1,0 +1,46 @@
+manifestVersion: 1
+modules:
+  jira:projectPage:
+    - key: sprint-autopsy-page
+      function: main
+      title: Sprint Autopsy
+      icon: resource:sprintIcon
+  function:
+    - key: main
+      handler: index.run
+  rovo:agent:
+    - key: sprint-autopsy-agent
+      name: Sprint Autopsy
+      description: >
+        Analyzes a completed Jira sprint and produces a brutally honest but fair
+        retrospective: velocity trend, spillover patterns, bug hotspots, ghost
+        tickets, estimate accuracy, and three concrete process fixes.
+      prompt: >
+        You are Sprint Autopsy, an agile analytics expert. When given sprint data
+        (issues, story points, statuses, assignees, cycle times), produce a
+        retrospective with: 1) Velocity trend vs previous sprints, 2) What spilled
+        over and why, 3) Bug hotspots by component, 4) Ghost tickets (created but
+        never worked), 5) Estimate accuracy, 6) Three concrete, actionable process
+        fixes. Be direct, data-driven, and constructive.
+      actions:
+        - actionKey: get-sprint-data
+          actionVerb: get
+          description: Fetches completed sprint data for the current Jira project
+          inputs: {}
+          function: fetchSprintData
+  function:
+    - key: fetchSprintData
+      handler: resolver.fetchSprintData
+resources:
+  - key: sprintIcon
+    path: static/sprint-icon.svg
+permissions:
+  scopes:
+    - read:jira-work
+    - read:jira-user
+    - read:board-scope:jira-software
+    - read:sprint:jira-software
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/sprint-autopsy
