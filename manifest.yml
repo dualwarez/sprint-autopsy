@@ -1,7 +1,9 @@
 modules:
   jira:projectPage:
     - key: sprint-autopsy-page
-      function: main
+      resource: sprint-ui
+      resolver:
+        function: main
       title: Sprint Autopsy
   action:
     - key: get-sprint-data
@@ -26,9 +28,12 @@ modules:
         - get-sprint-data
   function:
     - key: main
-      handler: index.run
+      handler: index.handler
     - key: fetchSprintData
       handler: resolver.fetchSprintData
+resources:
+  - key: sprint-ui
+    path: static/ui
 permissions:
   scopes:
     - read:project:jira

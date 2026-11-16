@@ -4,7 +4,7 @@ import api, { route } from '@forge/api';
 const clamp = (n, def) => (Number.isFinite(n) ? n : def);
 
 export async function fetchSprintData(payload) {
-  const projectKey = (payload && payload.projectKey) || 'DEM';
+  const projectKey = (payload && payload.projectKey) || 'SPD';
   try {
     // 1) find boards for the project
     const boardsRes = await api.asApp().requestJira(
